@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ExcelReader {
@@ -23,9 +24,17 @@ public class ExcelReader {
                  return;
              }
 
+             GetJsonData getJsonData = new GetJsonData();
+             List<Header> headers = getJsonData.getHeader(headerRow);
+
+             headers.stream().forEach(header -> System.out.println("header.name "+ header.name+ " index: "+ header.index));
+             System.out.println("headers: "+headers);
              Map<String, Integer> columnIndices = new HashMap<>();
+
              for (Cell cell : headerRow){
                  String headerValue = cell.getStringCellValue();
+
+
                  if("SLHĐ (Tổng bán)".equalsIgnoreCase(headerValue)){
                      columnIndices.put("SLHĐ (Tổng bán)", cell.getColumnIndex());
                  }

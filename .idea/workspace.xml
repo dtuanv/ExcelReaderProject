@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11b5a569-f6a6-4d6a-bb22-63c8451957b1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ricesoft/ExcelReader.java" afterDir="false" />
+    <list default="true" id="11b5a569-f6a6-4d6a-bb22-63c8451957b1" name="Changes" comment="init project">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ricesoft/GetJsonData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ricesoft/Header.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ricesoft/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ricesoft/ExcelReader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,8 +81,16 @@
       <updated>1726862323409</updated>
       <workItem from="1726862324787" duration="2995000" />
       <workItem from="1727017185909" duration="1108000" />
-      <workItem from="1727035113608" duration="1416000" />
+      <workItem from="1727035113608" duration="3867000" />
     </task>
+    <task id="LOCAL-00001" summary="init project">
+      <created>1727036666837</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1727036666837</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,5 +106,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init project" />
+    <option name="LAST_COMMIT_MESSAGE" value="init project" />
   </component>
 </project>
