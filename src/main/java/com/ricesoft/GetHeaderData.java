@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.Row;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetJsonData {
+public class GetHeaderData {
 
     public List<Header> getHeader(Row row){
         List<Header> headerList = new ArrayList();

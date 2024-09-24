@@ -4,15 +4,18 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ExcelReader {
     public static void main(String[] args) {
-        String excelFilePath = "T:\\Project\\Backend\\File\\nhanh.xlsx";
+
+        String excelFilePath = "T:\\user\\header.xlsx";
          try (FileInputStream fis = new FileInputStream(excelFilePath);
                     Workbook workbook = new XSSFWorkbook(fis)) {
              // Get the first sheet
@@ -24,60 +27,86 @@ public class ExcelReader {
                  return;
              }
 
-             GetJsonData getJsonData = new GetJsonData();
+             GetHeaderData getJsonData = new GetHeaderData();
              List<Header> headers = getJsonData.getHeader(headerRow);
 
-             headers.stream().forEach(header -> System.out.println("header.name "+ header.name+ " index: "+ header.index));
-             System.out.println("headers: "+headers);
-             Map<String, Integer> columnIndices = new HashMap<>();
 
-             for (Cell cell : headerRow){
-                 String headerValue = cell.getStringCellValue();
+             Set<Integer> columnIndex = new HashSet<>();
+             columnIndex.add(1);
+             columnIndex.add(2);
+             columnIndex.add(6);
+             List<Header> headerNew = filterHeader(columnIndex, headers);
+             System.out.println("!!!!!!!!!!!!!!!");
 
-
-                 if("SLHĐ (Tổng bán)".equalsIgnoreCase(headerValue)){
-                     columnIndices.put("SLHĐ (Tổng bán)", cell.getColumnIndex());
-                 }
-                 if("SLHĐ (Tổng trả)".equalsIgnoreCase(headerValue)){
-                     columnIndices.put("SLHĐ (Tổng trả)", cell.getColumnIndex());
-                 }
-                 if("Thực thu tiền mặt".equalsIgnoreCase(headerValue)){
-                     columnIndices.put("Thực thu tiền mặt", cell.getColumnIndex());
-                 }
-             }
-             if (!columnIndices.containsKey("SLHĐ (Tổng bán)") || !columnIndices.containsKey("SLHĐ (Tổng trả)") || !columnIndices.containsKey("Thực thu tiền mặt")) {
-                 System.out.println("Required headers 'Name' or 'Location' not found.");
-                 return;
+             String showHeader = "";
+             for(Header h : headerNew){
+                 showHeader = showHeader + " " + h.name;
              }
 
-             // Define DecimalFormat to format numbers without scientific notation
+             System.out.println(showHeader);
              DecimalFormat df = new DecimalFormat("#");
-
-             // Iterate through the remaining rows and print only "SLHĐ (Tổng bán)", "SLHĐ (Tổng trả)", "Thực thu tiền mặt" columns
-             System.out.println("SLHĐ (Tổng bán)\tSLHĐ (Tổng trả)\tThực thu tiền mặt");
-             for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+             for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++){
+                 String showRow = "";
                  Row row = sheet.getRow(rowIndex);
-                 if (row == null) {
-                     continue; // Skip empty rows
+
+                 for(Header h : headerNew){
+                     showRow = showRow + " | " + getFormattedCellValue(row.getCell(h.index), df);
                  }
-
-                 Cell sldhTotalSellCell = row.getCell(columnIndices.get("SLHĐ (Tổng bán)"));
-                 Cell totalPayCell = row.getCell(columnIndices.get("SLHĐ (Tổng trả)"));
-                 Cell receiveCell = row.getCell(columnIndices.get("Thực thu tiền mặt"));
-
-                 // Get the cell values (handle possible nulls)
-                 String totalSell = getFormattedCellValue(sldhTotalSellCell, df);
-                 String totalPay = getFormattedCellValue(totalPayCell, df);
-                 String receive = getFormattedCellValue(receiveCell, df);
-
-                 // Print the formatted values
-                 System.out.println(totalSell + "\t" + totalPay + "\t" + receive);
+                 System.out.println(showRow);
              }
+
+             createExcel(sheet,headerNew);
+
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public static void createExcel(Sheet sheet, List<Header> headerList){
+        DecimalFormat df = new DecimalFormat("#");
+        Workbook workbook = new XSSFWorkbook();
+        // Create a Sheet
+        Sheet sheetNew = workbook.createSheet();
+        Row headerRow = sheetNew.createRow(0);
+        int cellIndex = 0;
+        for (Header h : headerList){
+            Cell headerCell = headerRow.createCell(cellIndex);
+            headerCell.setCellValue(h.name);
+            cellIndex++;
+        }
+        for(int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++){
+            Row createdrRow = sheetNew.createRow(rowIndex);
+            int cellRowIndex= 0;
+            for(Header he : headerList){
+                Cell cell = createdrRow.createCell(cellRowIndex);
+                cell.setCellValue(getFormattedCellValue(sheet.getRow(rowIndex).getCell(he.index), df));
+                cellRowIndex++;
+            }
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream("T:\\ExportData.xlsx")) {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Closing the workbook
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Excel file written successfully!");
+
+    }
+    public static List<Header> filterHeader(Set<Integer> indexColumn, List<Header> headerList ){
+        List<Header>    headerListNew = headerList.stream()
+                .filter(header -> indexColumn.stream().anyMatch(integer -> integer == header.index)).collect(Collectors.toList());
+
+        return headerListNew;
+
+    }
     private static String getFormattedCellValue(Cell cell, DecimalFormat df) {
         if (cell == null) {
             return ""; // If the cell is null, return an empty string
