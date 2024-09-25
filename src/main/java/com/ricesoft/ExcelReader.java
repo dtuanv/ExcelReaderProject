@@ -16,50 +16,54 @@ public class ExcelReader {
     public static void main(String[] args) {
 
         String excelFilePath = "T:\\Project\\Backend\\File\\nhanh.xlsx";
-         try (FileInputStream fis = new FileInputStream(excelFilePath);
-                    Workbook workbook = new XSSFWorkbook(fis)) {
-             // Get the first sheet
-             Sheet sheet = workbook.getSheetAt(0);
-             // Read the first row (header row) to find the indices for name of header
-             Row headerRow = sheet.getRow(0);
-             if(headerRow == null){
-                 System.out.println("No header row found.");
-                 return;
-             }
+        extracted(excelFilePath);
+    }
 
-             GetHeaderData getJsonData = new GetHeaderData();
-             List<Header> headers = getJsonData.getHeader(headerRow);
+    private static void extracted(String excelFilePath) {
+        try (FileInputStream fis = new FileInputStream(excelFilePath);
+             Workbook workbook = new XSSFWorkbook(fis)) {
+            // Get the first sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            // Read the first row (header row) to find the indices for name of header
+            Row headerRow = sheet.getRow(0);
+            if(headerRow == null){
+                System.out.println("No header row found.");
+                return;
+            }
+
+            HeaderData getJsonData = new HeaderData();
+            List<Header> headers = getJsonData.getHeader(headerRow);
 
 
-             Set<Integer> columnIndex = new HashSet<>();
-             columnIndex.add(1);
-             columnIndex.add(2);
-             columnIndex.add(6);
-             List<Header> headerNew = filterHeader(columnIndex, headers);
-             System.out.println("!!!!!!!!!!!!!!!");
+            Set<Integer> columnIndex = new HashSet<>();
+            columnIndex.add(1);
+            columnIndex.add(2);
+            columnIndex.add(6);
+            List<Header> headerNew = filterHeader(columnIndex, headers);
+            System.out.println("!!!!!!!!!!!!!!!");
 
-             String showHeader = "";
-             for(Header h : headerNew){
-                 showHeader = showHeader + " " + h.name;
-             }
+            String showHeader = "";
+            for(Header h : headerNew){
+                showHeader = showHeader + " " + h.name;
+            }
 
-             System.out.println(showHeader);
-             DecimalFormat df = new DecimalFormat("#");
-             for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++){
-                 String showRow = "";
-                 Row row = sheet.getRow(rowIndex);
+            System.out.println(showHeader);
+            DecimalFormat df = new DecimalFormat("#");
+            for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++){
+                String showRow = "";
+                Row row = sheet.getRow(rowIndex);
 
-                 for(Header h : headerNew){
-                     showRow = showRow + " | " + getFormattedCellValue(row.getCell(h.index), df);
-                 }
-                 System.out.println(showRow);
-             }
+                for(Header h : headerNew){
+                    showRow = showRow + " | " + getFormattedCellValue(row.getCell(h.index), df);
+                }
+                System.out.println(showRow);
+            }
 
-             createExcel(sheet,headerNew);
+            createExcel(sheet,headerNew);
 
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+       }catch (IOException e) {
+           e.printStackTrace();
+       }
     }
 
     public static void createExcel(Sheet sheet, List<Header> headerList){
