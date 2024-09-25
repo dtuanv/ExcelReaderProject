@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11b5a569-f6a6-4d6a-bb22-63c8451957b1" name="Changes" comment="[*] to gradle project">
+    <list default="true" id="11b5a569-f6a6-4d6a-bb22-63c8451957b1" name="Changes" comment="[+] extracted()">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ricesoft/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ricesoft/ExcelReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ricesoft/GetHeaderData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ricesoft/HeaderData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ricesoft/Header.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ricesoft/Header.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +25,23 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ExcelReaderProject" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ExcelReaderProject" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ExcelReaderProject" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -65,7 +78,6 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
@@ -74,7 +86,7 @@
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.ExcelReader (1)">
+  <component name="RunManager" selected="Gradle.ExcelReaderProject [build]">
     <configuration name="ExcelReader (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.ricesoft.ExcelReader" />
       <module name="ExcelReaderProject.main" />
@@ -100,6 +112,27 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="ExcelReaderProject [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="ExcelReaderProject" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -141,6 +174,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ExcelReaderProject [build]" />
         <item itemvalue="Application.ExcelReader (1)" />
         <item itemvalue="Gradle.ExcelReaderProject" />
         <item itemvalue="Gradle.T:/Project/Backend/ExcelReaderProject/build.gradle" />
@@ -159,7 +193,7 @@
       <workItem from="1726862324787" duration="2995000" />
       <workItem from="1727017185909" duration="1108000" />
       <workItem from="1727035113608" duration="4498000" />
-      <workItem from="1727290071509" duration="3688000" />
+      <workItem from="1727290071509" duration="4711000" />
     </task>
     <task id="LOCAL-00001" summary="init project">
       <created>1727036666837</created>
@@ -182,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1727293379275</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="[+] extracted()">
+      <created>1727294127924</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1727294127924</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,6 +244,7 @@
     <MESSAGE value="init project" />
     <MESSAGE value="[+] GetJsonData, Header" />
     <MESSAGE value="[*] to gradle project" />
-    <option name="LAST_COMMIT_MESSAGE" value="[*] to gradle project" />
+    <MESSAGE value="[+] extracted()" />
+    <option name="LAST_COMMIT_MESSAGE" value="[+] extracted()" />
   </component>
 </project>
