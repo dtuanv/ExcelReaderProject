@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ExcelReader {
     public static void main(String[] args) {
 
-        String excelFilePath = "T:\\user\\header.xlsx";
+        String excelFilePath = "T:\\Project\\Backend\\File\\nhanh.xlsx";
          try (FileInputStream fis = new FileInputStream(excelFilePath);
                     Workbook workbook = new XSSFWorkbook(fis)) {
              // Get the first sheet
@@ -84,7 +84,7 @@ public class ExcelReader {
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream("T:\\ExportData.xlsx")) {
+        try (FileOutputStream outputStream = new FileOutputStream("T:\\Project\\Backend\\File\\ExportData.xlsx")) {
             workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();

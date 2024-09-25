@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Apache POI for Excel
+    implementation 'org.apache.poi:poi:5.2.3'
+
+    // Apache POI for Excel (XSSF for .xlsx files)
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+}
