@@ -1,4 +1,4 @@
-package com.ricesoft;
+package com.excelRice;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -7,19 +7,19 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ExcelReader {
-    public static void main(String[] args) {
 
-        String excelFilePath = "T:\\Project\\Backend\\File\\nhanh.xlsx";
-        extracted(excelFilePath);
-    }
 
-    private static void extracted(String excelFilePath) {
+public class ExcelFile {
+
+    public List<Header> getHeader(String excelFilePath){
+        List<Header> headerList = new ArrayList();
+
         try (FileInputStream fis = new FileInputStream(excelFilePath);
              Workbook workbook = new XSSFWorkbook(fis)) {
             // Get the first sheet
@@ -28,19 +28,45 @@ public class ExcelReader {
             Row headerRow = sheet.getRow(0);
             if(headerRow == null){
                 System.out.println("No header row found.");
-                return;
+                return null;
+            }else {
+                for(Cell cell : headerRow){
+                    headerList.add(new Header(cell.getStringCellValue(), cell.getColumnIndex()));
+                }
             }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            HeaderData getJsonData = new HeaderData();
-            List<Header> headers = getJsonData.getHeader(headerRow);
+       return headerList;
+    }
 
+    public Sheet getSheet(String excelFilePath) {
+
+        try (FileInputStream fis = new FileInputStream(excelFilePath);
+             Workbook workbook = new XSSFWorkbook(fis)) {
+            // Get the first sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            return sheet;
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+    public  void extracted(String excelFilePath, String exportFile) {
+
+
+            ExcelFile getJsonData = new ExcelFile();
+            List<Header> headers = getHeader(excelFilePath);
 
             Set<Integer> columnIndex = new HashSet<>();
             columnIndex.add(1);
             columnIndex.add(2);
             columnIndex.add(6);
             List<Header> headerNew = filterHeader(columnIndex, headers);
-            System.out.println("!!!!!!!!!!!!!!!");
+
+        System.out.println("!!!!!!!!!!!!!!!");
 
             String showHeader = "";
             for(Header h : headerNew){
@@ -49,7 +75,11 @@ public class ExcelReader {
 
             System.out.println(showHeader);
             DecimalFormat df = new DecimalFormat("#");
-            for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++){
+
+            Sheet sheet = getSheet(excelFilePath);
+        createExcel(sheet,headerNew,exportFile);
+
+        for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++){
                 String showRow = "";
                 Row row = sheet.getRow(rowIndex);
 
@@ -59,21 +89,16 @@ public class ExcelReader {
                 System.out.println(showRow);
             }
 
-            createExcel(sheet,headerNew);
-
-       }catch (IOException e) {
-           e.printStackTrace();
-       }
     }
 
-    public static void createExcel(Sheet sheet, List<Header> headerList){
+    public  void createExcel(Sheet sheet, List<Header> selectedHeader, String exportFile){
         DecimalFormat df = new DecimalFormat("#");
         Workbook workbook = new XSSFWorkbook();
         // Create a Sheet
         Sheet sheetNew = workbook.createSheet();
         Row headerRow = sheetNew.createRow(0);
         int cellIndex = 0;
-        for (Header h : headerList){
+        for (Header h : selectedHeader){
             Cell headerCell = headerRow.createCell(cellIndex);
             headerCell.setCellValue(h.name);
             cellIndex++;
@@ -81,14 +106,14 @@ public class ExcelReader {
         for(int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++){
             Row createdrRow = sheetNew.createRow(rowIndex);
             int cellRowIndex= 0;
-            for(Header he : headerList){
+            for(Header he : selectedHeader){
                 Cell cell = createdrRow.createCell(cellRowIndex);
                 cell.setCellValue(getFormattedCellValue(sheet.getRow(rowIndex).getCell(he.index), df));
                 cellRowIndex++;
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream("T:\\Project\\Backend\\File\\ExportData.xlsx")) {
+        try (FileOutputStream outputStream = new FileOutputStream(exportFile)) {
             workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -104,14 +129,15 @@ public class ExcelReader {
         System.out.println("Excel file written successfully!");
 
     }
-    public static List<Header> filterHeader(Set<Integer> indexColumn, List<Header> headerList ){
+
+    public  List<Header> filterHeader(Set<Integer> indexColumn, List<Header> headerList ){
         List<Header>    headerListNew = headerList.stream()
                 .filter(header -> indexColumn.stream().anyMatch(integer -> integer == header.index)).collect(Collectors.toList());
 
         return headerListNew;
 
     }
-    private static String getFormattedCellValue(Cell cell, DecimalFormat df) {
+    public String getFormattedCellValue(Cell cell, DecimalFormat df) {
         if (cell == null) {
             return ""; // If the cell is null, return an empty string
         }
